@@ -1,3 +1,4 @@
+// Import necessary libraries and components
 import { useState, useRef } from "react";
 import accessoryData from "./accessory.json";
 import DataTable from "./components/DataTable";
@@ -5,19 +6,23 @@ import Button from "react-bootstrap/Button";
 import { Container, Row, Col } from "react-bootstrap";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
+// Define the main App component
 function App() {
+  // State hooks to manage selected items, filtered items, and price
   const [selectedItems, setSelectedItems] = useState([]);
   const [filteredSelectedItems, setFilteredSelectedItems] = useState([]);
   const [price, setPrice] = useState(accessoryData[0].price);
-  const quantityRef = useRef();
-  const productRef = useRef();
+  const quantityRef = useRef(); // Reference for quantity input field
+  const productRef = useRef(); // Reference for product select field
 
+  // Function to filter selected items based on a keyword
   const search = (keyword) => {
     setFilteredSelectedItems(
       selectedItems.filter(item => item.name.includes(keyword))
     );
   };
 
+  // Function to handle form submission
   const handleSubmit = (e) => {
     const productId = parseInt(productRef.current.value);
     const product = accessoryData.find(accessory => accessory.id === productId);
@@ -30,28 +35,33 @@ function App() {
     setFilteredSelectedItems([...selectedItems]);
   };
 
+  // Function to update price based on selected product
   const updatePrice = (e) => {
     const productId = parseInt(e.target.value);
     const product = accessoryData.find(accessory => accessory.id === productId);
     setPrice(product.price);
   };
 
+  // Function to delete an item by its index
   const deleteItemByIndex = (index) => {
     selectedItems.splice(index, 1);
     setSelectedItems([...selectedItems]);
     setFilteredSelectedItems([...selectedItems]);
   };
 
+  // Function to sort items in ascending order
   const sortAscending = () => {
     const sortedItems = [...selectedItems].sort((a, b) => a.name.localeCompare(b.name));
     setFilteredSelectedItems(sortedItems);
   };
 
+  // Function to sort items in descending order
   const sortDescending = () => {
     const sortedItems = [...selectedItems].sort((a, b) => b.name.localeCompare(a.name));
     setFilteredSelectedItems(sortedItems);
   };
 
+  // Render the component
   return (
     <>
       <Container>
@@ -94,4 +104,5 @@ function App() {
   );
 }
 
+// Export the App component as default
 export default App;
